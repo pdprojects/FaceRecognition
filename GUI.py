@@ -57,7 +57,7 @@ class UI(QtGui.QMainWindow):
         btn_quit.move(5, 545)
 
         btn_train = QtGui.QPushButton('Train', self)
-        btn_train.clicked.connect(self.scan)
+        btn_train.clicked.connect(self.train)
         btn_train.resize(btn_scan.sizeHint())
         btn_train.move(410, 545)
 
@@ -73,6 +73,9 @@ class UI(QtGui.QMainWindow):
         self._timer.timeout.connect(self.process_video)
         self._timer.start(10)
         self.update()
+
+    def train(self):
+        pass
 
 
 class Video:
