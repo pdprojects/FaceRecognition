@@ -18,6 +18,9 @@ class MainController:
     def train_algorithm(self):
         pass
 
+    def process_images(self):
+        pass
+
 
 def main():
 
