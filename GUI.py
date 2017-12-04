@@ -3,15 +3,17 @@ import sys
 import cv2
 import numpy as np
 from PyQt4 import QtGui, QtCore
+import MainController
 
 
 class UI(QtGui.QMainWindow):
 
     def __init__(self):
         super(UI, self).__init__()
+
         self.setGeometry(250, 50, 900, 600)
         self.setWindowTitle("FYP-Face Recognition Prototype")
-        # self.setWindowIcon(QtGui.QIcon('icon.png'))
+        self.controller = MainController.MainController()
 
         self.box = QtGui.QWidget()
         self.videoFrame = QtGui.QLabel(self.box)
@@ -19,21 +21,24 @@ class UI(QtGui.QMainWindow):
         self.setCentralWidget(self.box)
         self.videoFrame.setStyleSheet("background-color:black;")
 
-        fileAction = QtGui.QAction("&Exit", self)
-        fileAction.setShortcut("Ctrl+Q")
-        fileAction.setStatusTip("Leave The App")
-        fileAction.triggered.connect(self.close_app)
-        helpAction = QtGui.QAction("&About", self)
+        file_action = QtGui.QAction("&Exit", self)
+        file_action.setShortcut("Ctrl+Q")
+        file_action.setStatusTip("Leave The App")
+        file_action.triggered.connect(self.close_app)
+        help_action = QtGui.QAction("&About", self)
 
         self.statusBar()
 
-        mainMenu = self.menuBar()
-        fileMenu = mainMenu.addMenu("&File")
-        fileMenu.addAction(fileAction)
+        main_menu = self.menuBar()
+        file_menu = main_menu.addMenu("&File")
+        file_menu.addAction(file_action)
 
-        helpMenu = mainMenu.addMenu("&Help")
-        helpMenu.addAction(helpAction)
+        help_menu = main_menu.addMenu("&Help")
+        help_menu.addAction(help_action)
 
+        self.btn_scan = QtGui.QPushButton('Scan', self)
+        self.btn_train = QtGui.QPushButton('Train', self)
+        self.btn_quit = QtGui.QPushButton('Quit', self)
         self.click_buttons()
 
     def process_video(self):
@@ -46,27 +51,27 @@ class UI(QtGui.QMainWindow):
 
     def click_buttons(self):
 
-        btn_scan = QtGui.QPushButton('Scan', self)
-        btn_scan.clicked.connect(self.scan)
-        btn_scan.resize(btn_scan.sizeHint())
-        btn_scan.move(810, 545)
+        self.btn_train.clicked.connect(self.train)
+        self.btn_train.resize(self.btn_train.sizeHint())
+        self.btn_train.move(410, 545)
 
-        btn_quit = QtGui.QPushButton('Quit', self)
-        btn_quit.clicked.connect(self.close_app)
-        btn_quit.resize(btn_quit.sizeHint())
-        btn_quit.move(5, 545)
+        self.btn_scan.clicked.connect(self.scan)
+        self.btn_scan.resize(self.btn_scan.sizeHint())
+        self.btn_scan.move(810, 545)
 
-        btn_train = QtGui.QPushButton('Train', self)
-        btn_train.clicked.connect(self.train)
-        btn_train.resize(btn_scan.sizeHint())
-        btn_train.move(410, 545)
+        self.btn_quit.clicked.connect(self.close_app)
+        self.btn_quit.resize(self.btn_quit.sizeHint())
+        self.btn_quit.move(5, 545)
 
     def close_app(self):
+
         self.video_capture.release()
         cv2.destroyAllWindows()
         sys.exit()
 
     def scan(self):
+
+        self.btn_train.setDisabled(True)
         self.video_capture = cv2.VideoCapture(0)
         self.video = Video(self.video_capture)
         self._timer = QtCore.QTimer(self)
@@ -75,7 +80,8 @@ class UI(QtGui.QMainWindow):
         self.update()
 
     def train(self):
-        pass
+
+        self.controller.process_images("/home/patryk/Desktop/pictures")
 
 
 class Video:
@@ -121,3 +127,15 @@ class Video:
             return img
         except:
             return None
+
+
+def main():
+
+    application = QtGui.QApplication(sys.argv)
+    gui = UI()
+    gui.show()
+    sys.exit(application.exec_())
+
+
+if __name__ == '__main__':
+    main()
