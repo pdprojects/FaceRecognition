@@ -16,9 +16,9 @@ class ImagePreprocessor:
         print(directory)
         for img in glob.glob(directory+"/*.jpg"):
             image = cv2.imread(img, 0)
-            r = 150.0 / image.shape[1]
-            dim = (150, int(image.shape[0] * r))
-            resize = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
+            # r = 150.0 / image.shape[1]
+            # dim = (150, int(image.shape[0] * r))
+            # resize = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
             r = 50.0 / image.shape[0]
             dim = (int(image.shape[1] * r), 50)
             resize = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
