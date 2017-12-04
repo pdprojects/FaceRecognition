@@ -1,16 +1,12 @@
 #!/usr/bin/python
-import sys
-from GUI import UI
-from PyQt4 import QtGui
+
+from ImagePreprocessor import ImagePreprocessor as ip
 
 
 class MainController:
 
     def __init__(self):
-        application = QtGui.QApplication(sys.argv)
-        gui = UI()
-        gui.show()
-        sys.exit(application.exec_())
+        pass
 
     def detect_face(self):
         pass
@@ -18,14 +14,11 @@ class MainController:
     def train_algorithm(self):
         pass
 
-    def process_images(self):
+    def process_images(self,path):
         pass
 
-
-def main():
-
-    ui = MainController()
+        ip.resize_images(path)
 
 
-if __name__ == '__main__':
-    main()
+
+
