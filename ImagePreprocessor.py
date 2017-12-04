@@ -3,6 +3,7 @@ import cv2
 import glob
 import numpy as np
 
+
 class ImagePreprocessor:
 
     def __init__(self):
@@ -24,11 +25,11 @@ class ImagePreprocessor:
             face = np.array(resize, 'uint8')
             image_array.append(face)
 
+        # cv2.imshow("Resized", image_array[0])
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
         return image_array
 
-
-arr = ImagePreprocessor.resize_images("/home/patryk/Desktop/pictures")
-cv2.imshow("Resized", arr[0])
-print(type(arr))
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+    @staticmethod
+    def crop_images():
+        pass
